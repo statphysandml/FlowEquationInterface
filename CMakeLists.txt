@@ -1,7 +1,12 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.15)
+
+# Silence warnings about empty CUDA_ARCHITECTURES properties on example targets:
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.18)
+  cmake_policy(SET CMP0104 OLD)
+endif()
 
 # Set a name and a version number for your project:
-project(flowequations VERSION 0.0.1 LANGUAGES CXX)
+project(flowequations VERSION 0.0.1 LANGUAGES CXX CUDA)
 
 # Initialize some default paths
 include(GNUInstallDirs)
@@ -10,22 +15,42 @@ include(GNUInstallDirs)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+# Update submodules as needed
+    option(GIT_SUBMODULE "Check submodules during build" ON)
+    if(GIT_SUBMODULE)
+        message(STATUS "Submodule update")
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                        RESULT_VARIABLE GIT_SUBMOD_RESULT)
+        if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+            message(FATAL_ERROR "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+        endif()
+    endif()
+endif()
+
+if(NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/DevDat/CMakeLists.txt")
+    message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+endif()
 
 # Compilation options
+
+# compile the external submodule
+include_directories(ext/DevDat/include)
+add_subdirectory(ext/DevDat)
 
 # compile the library
 add_subdirectory(src)
 
-
-# compile the application
-add_subdirectory(app)
+# compile the examples
+add_subdirectory(examples)
 
 # compile the tests
 include(CTest)
 if(BUILD_TESTING)
-  add_subdirectory(ext/Catch2)
-  include(./ext/Catch2/contrib/Catch.cmake)
   add_subdirectory(tests)
 endif()
 
