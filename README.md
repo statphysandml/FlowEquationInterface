@@ -10,7 +10,8 @@
 Building Flow Equation Interface requires the following software installed:
 
 * A C++17-compliant compiler
-* CMake `>= 3.9`
+* CMake `>= 3.15`
+* Cuda `>=10.1`
 
 # Building Flow Equation Interface
 
@@ -42,8 +43,29 @@ the C++ test suite of `Flow Equation Interface` can be run using
 cd build
 ctest
 ```
+# Building the example
+
+The example directory demonstrates how the library can be integrated into a cmake project:
+
+```
+cd examples
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=~/FlowEquationInterface/install ..   
+cmake --build .
+```
+
+Note that we have assumed here that the library was built beforehand locally by running the following commands in the top-level directory of the repository:
+
+```
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./../install ..    
+make install -j9
+```
 
 
 # Documentation
 
-Flow Equation Interface *should* provide a documentation.
+ToDo
+

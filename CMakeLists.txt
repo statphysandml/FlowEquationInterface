@@ -45,15 +45,11 @@ add_subdirectory(ext/DevDat)
 # compile the library
 add_subdirectory(src)
 
-# compile the examples
-add_subdirectory(examples)
-
 # compile the tests
 include(CTest)
 if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
-
 
 
 # Add an alias target for use if this project is included as a subproject in another project
