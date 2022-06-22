@@ -1,0 +1,2 @@
+add_executable(flowequations_app flowequations_app.cpp)
+target_link_libraries(flowequations_app PRIVATE flowequations)
