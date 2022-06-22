@@ -1,5 +1,5 @@
-#ifndef PROJECT_JACOBIAN_EQUATION_HPP
-#define PROJECT_JACOBIAN_EQUATION_HPP
+#ifndef FLOWEQUATIONS_JACOBIAN_EQUATION_HPP
+#define FLOWEQUATIONS_JACOBIAN_EQUATION_HPP
 
 #include <vector>
 #include <string>
@@ -51,4 +51,4 @@ namespace flowequations {
     void compute_jacobian_elements(const devdat::DevDatC &coordinates, devdat::DevDatC &jacobian_elements, JacobianEquationsWrapper * jacobian_equations);
 }
 
-#endif //PROJECT_JACOBIAN_EQUATION_HPP
+#endif //FLOWEQUATIONS_JACOBIAN_EQUATION_HPP

@@ -1,7 +1,7 @@
-#ifndef PROGRAM_FLOW_EQUATION_SYSTEM_HPP
-#define PROGRAM_FLOW_EQUATION_SYSTEM_HPP
+#ifndef FLOWEQUATIONS_FLOW_EQUATION_SYSTEM_HPP
+#define FLOWEQUATIONS_FLOW_EQUATION_SYSTEM_HPP
 
-#include <flowequations/flow_equations/flow_equation.hpp>
+#include <flowequations/flow_equation.hpp>
 
 
 namespace flowequations {
@@ -28,4 +28,4 @@ namespace flowequations {
     };
 }
 
-#endif //PROGRAM_FLOW_EQUATION_SYSTEM_HPP
+#endif //FLOWEQUATIONS_FLOW_EQUATION_SYSTEM_HPP

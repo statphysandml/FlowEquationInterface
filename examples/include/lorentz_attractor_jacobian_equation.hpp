@@ -1,5 +1,5 @@
-#ifndef PROJECT_LORENTZATTRACTORJACOBIAN_HPP
-#define PROJECT_LORENTZATTRACTORJACOBIAN_HPP
+#ifndef EXAMPLES_LORENTZATTRACTORJACOBIAN_HPP
+#define EXAMPLES_LORENTZATTRACTORJACOBIAN_HPP
 
 #include <math.h>
 #include <tuple>
@@ -158,4 +158,4 @@ private:
 	std::vector<std::shared_ptr<flowequations::JacobianEquation>> jacobian_equations_;
 };
 
-#endif //PROJECT_LORENTZATTRACTORJACOBIAN_HPP
+#endif //EXAMPLES_LORENTZATTRACTORJACOBIAN_HPP

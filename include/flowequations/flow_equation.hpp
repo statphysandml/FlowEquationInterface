@@ -1,5 +1,5 @@
-#ifndef PROJECT_FLOW_EQUATION_HPP
-#define PROJECT_FLOW_EQUATION_HPP
+#ifndef FLOWEQUATIONS_FLOW_EQUATION_HPP
+#define FLOWEQUATIONS_FLOW_EQUATION_HPP
 
 #include <vector>
 #include <string>
@@ -43,4 +43,4 @@ namespace flowequations {
     void compute_flow(const devdat::DevDatC &coordinates, devdat::DevDatC &vertex_velocities, FlowEquationsWrapper * flow_equations);
 }
 
-#endif //PROJECT_FLOW_EQUATION_HPP
+#endif //FLOWEQUATIONS_FLOW_EQUATION_HPP
