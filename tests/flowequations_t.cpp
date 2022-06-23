@@ -3,7 +3,12 @@
 
 using namespace flowequations;
 
-// ToDo
+TEST_CASE( "cuda_version", "[cuda]") {
+    int driver_version , runtime_version;
+    cudaDriverGetVersion( &driver_version );
+    cudaRuntimeGetVersion ( &runtime_version );
+    std::cout << driver_version << "\t" << runtime_version << std::endl;
+}
 
 /* TEST_CASE( "add_one", "[adder]" ){
   REQUIRE(add_one(0) == 1);
