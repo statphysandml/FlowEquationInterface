@@ -1,0 +1,17 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Find dependencies
+find_dependency(devdat REQUIRED)
+find_dependency(CUDAToolkit REQUIRED)
+
+# Include targets
+include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
+
+# Add alias for backwards compatibility if needed
+if(NOT TARGET @PROJECT_NAME@::flowequations AND TARGET @PROJECT_NAME@::@PROJECT_NAME@)
+    add_library(@PROJECT_NAME@::flowequations ALIAS @PROJECT_NAME@::@PROJECT_NAME@)
+endif()
+
+message(STATUS "Found @PROJECT_NAME@ @PROJECT_VERSION@")

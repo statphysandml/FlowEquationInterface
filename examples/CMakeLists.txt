@@ -1,37 +1,27 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.18)
+project(flowequations_examples LANGUAGES CXX CUDA)
 
-# Silence warnings about empty CUDA_ARCHITECTURES properties on example targets:
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.18)
-  cmake_policy(SET CMP0104 OLD)
-endif()
-
-# Set a name and a version number for your project:
-project(Example VERSION 0.0.1 LANGUAGES CXX CUDA)
-
-# Initialize some default paths
-include(GNUInstallDirs)
-
-# Define the minimum C++ standard that is required
+# Set C++ and CUDA standards
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CUDA_STANDARD 14)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+# Find the devdat package
+find_package(devdat REQUIRED)
 
-# Include libraries
-find_package(devdat CONFIG REQUIRED)
-find_package(flowequations CONFIG REQUIRED)
+# Find the flowequations package
+find_package(flowequations REQUIRED)
 
-add_executable(flowequations_examples main.cpp src/lorentz_attractor_flow_equation.cu src/lorentz_attractor_jacobian_equation.cu)
+# Add CUDA directories
+include_directories(include)
 
-target_compile_options(flowequations_examples PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:--expt-extended-lambda; --expt-relaxed-constexpr>)
-
-target_link_libraries(flowequations_examples PRIVATE devdat::devdat flowequations::flowequations)
-
-target_include_directories(flowequations_examples PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}>
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/>
+# Add the executable
+add_executable(flowequations_examples
+    main.cpp
+    src/lorentz_attractor_flow_equation.cu
+    src/lorentz_attractor_jacobian_equation.cu
 )
 
-# This prints a summary of found dependencies
-include(FeatureSummary)
-feature_summary(WHAT ALL)
+# Link with devdat - all necessary include paths should come from this
+target_link_libraries(flowequations_examples PRIVATE devdat::devdat flowequations::flowequations)
