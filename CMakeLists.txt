@@ -17,14 +17,17 @@ set(CMAKE_CUDA_STANDARD 14)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Find devdat library
-find_package(devdat REQUIRED)
-
-# Debug output
-message(STATUS "FLOWEQUATIONS_USE_SYSTEM_JSON=${FLOWEQUATIONS_USE_SYSTEM_JSON}")
-if(DEFINED JSON_INCLUDE_DIR)
-    message(STATUS "JSON_INCLUDE_DIR is set to: ${JSON_INCLUDE_DIR}")
+# Debug output for dependency paths
+message(STATUS "CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}")
+if(DEFINED DEVDAT_DIR)
+    message(STATUS "DEVDAT_DIR is set to: ${DEVDAT_DIR}")
+    list(APPEND CMAKE_PREFIX_PATH ${DEVDAT_DIR})
 endif()
+
+# Explicitly look for devdat with more debug output
+find_package(devdat REQUIRED)
+message(STATUS "Found devdat: ${devdat_FOUND}")
+message(STATUS "devdat include dirs: ${devdat_INCLUDE_DIRS}")
 
 # Handle nlohmann_json dependency
 if(FLOWEQUATIONS_USE_SYSTEM_JSON)
@@ -92,13 +95,15 @@ target_include_directories(flowequations
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    PRIVATE
+        ${devdat_INCLUDE_DIRS}  # Explicitly add devdat include dirs
 )
 
 # Link dependencies
 target_link_libraries(flowequations
     PUBLIC
         ${JSON_TARGET}
-        devdat::devdat
+        devdat::devdat  # Link to devdat target
 )
 
 # Installation
