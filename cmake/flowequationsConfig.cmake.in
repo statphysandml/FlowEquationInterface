@@ -2,16 +2,20 @@
 
 include(CMakeFindDependencyMacro)
 
-# Find dependencies
+# Find devdat as a dependency
 find_dependency(devdat REQUIRED)
-find_dependency(CUDAToolkit REQUIRED)
 
-# Include targets
+# Handle nlohmann_json dependency - only if we didn't export our own wrapper
+if(@FLOWEQUATIONS_USE_SYSTEM_JSON@ AND NOT @EXPORT_JSON_TARGET@)
+    find_dependency(nlohmann_json REQUIRED)
+endif()
+
+# Include the exported targets
 include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
 
-# Add alias for backwards compatibility if needed
-if(NOT TARGET @PROJECT_NAME@::flowequations AND TARGET @PROJECT_NAME@::@PROJECT_NAME@)
-    add_library(@PROJECT_NAME@::flowequations ALIAS @PROJECT_NAME@::@PROJECT_NAME@)
-endif()
+# Provide compatibility variables
+set(flowequations_FOUND TRUE)
+set(flowequations_VERSION @PROJECT_VERSION@)
+set(flowequations_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/../../../include")
 
 message(STATUS "Found @PROJECT_NAME@ @PROJECT_VERSION@")
