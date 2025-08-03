@@ -6,7 +6,7 @@ include(CMakeFindDependencyMacro)
 find_dependency(devdat REQUIRED)
 
 # Handle nlohmann_json dependency - only if we didn't export our own wrapper
-if(@FLOWEQUATIONS_USE_SYSTEM_JSON@ AND NOT @EXPORT_JSON_TARGET@)
+if((@FLOWEQUATIONS_USE_SYSTEM_JSON@ OR @USE_SYSTEM_JSON@) AND NOT @EXPORT_JSON_TARGET@)
     find_dependency(nlohmann_json REQUIRED)
 endif()
 
